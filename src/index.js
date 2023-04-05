@@ -67,23 +67,16 @@ window.Livewire.directive('sortable-group', (el, directive, component) => {
             pull: true,
             put: true,
         },
-        onSort: () => {
+        onSort: (e) => {
             let masterEl = el.closest('[wire\\:sortable-group]');
 
-            let groups = Array.from(masterEl.querySelectorAll('[wire\\:sortable-group\\.item-group]')).map((el, index) => {
-                return {
-                    order: index + 1,
-                    value: el.getAttribute('wire:sortable-group.item-group'),
-                    items:  el.livewire_sortable.toArray().map((value, index) => {
-                        return {
-                            order: index + 1,
-                            value: value
-                        };
-                    }),
-                };
-            });
-
-            component.call(masterEl.getAttribute('wire:sortable-group'), groups);
+            var itemId        = e.item.id;
+            var fromParentId  = e.from.id;
+            var toParentId    = e.to.id;
+            var oldIndex      = e.oldIndex;
+            var newIndex      = e.newIndex;
+        
+            component.call(masterEl.getAttribute('wire:sortable-group'),itemId, oldIndex, newIndex, fromParentId, toParentId);
         },
     });
 });
